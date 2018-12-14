@@ -49,23 +49,10 @@ F 3 "" H 1900 5600 50  0001 C CNN
 	1    1900 5600
 	1    0    0    -1  
 $EndComp
-$Comp
-L MC33886:MC33886 U1
-U 1 1 5C0AE6FA
-P 3800 5850
-F 0 "U1" H 3978 5871 50  0000 L CNN
-F 1 "MC33886" H 3978 5780 50  0000 L CNN
-F 2 "" H 3800 5850 50  0001 C CNN
-F 3 "" H 3800 5850 50  0001 C CNN
-	1    3800 5850
-	1    0    0    -1  
-$EndComp
 Wire Wire Line
 	1600 1850 1600 2050
 Wire Wire Line
 	1900 1950 1900 2050
-Wire Wire Line
-	3150 5650 3400 5650
 Wire Wire Line
 	3400 5750 3300 5750
 $Comp
@@ -140,7 +127,7 @@ Text GLabel 3450 2650 1    50   Input ~ 0
 GND
 Wire Wire Line
 	3450 2750 3450 2650
-Text GLabel 3150 5650 0    50   Input ~ 0
+Text GLabel 3100 5950 0    50   Input ~ 0
 5V_2
 Text GLabel 1550 4050 0    50   Input ~ 0
 GND
@@ -263,4 +250,76 @@ Wire Wire Line
 	3750 5200 3750 5300
 Wire Wire Line
 	3350 5200 3150 5200
+Wire Wire Line
+	3150 5650 3150 5950
+Wire Wire Line
+	3150 5950 3100 5950
+Wire Wire Line
+	3150 5950 3150 6250
+Wire Wire Line
+	3150 6250 3400 6250
+Connection ~ 3150 5950
+$Comp
+L MC33886:MC33886 U1
+U 1 1 5C0AE6FA
+P 3800 5850
+F 0 "U1" H 3978 5871 50  0000 L CNN
+F 1 "MC33886" H 3978 5780 50  0000 L CNN
+F 2 "" H 3800 5850 50  0001 C CNN
+F 3 "" H 3800 5850 50  0001 C CNN
+	1    3800 5850
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	3400 5650 3150 5650
+Wire Wire Line
+	3400 6150 3300 6150
+Wire Wire Line
+	3300 6150 3300 5750
+Connection ~ 3300 5750
+Wire Wire Line
+	3400 5850 3350 5850
+Wire Wire Line
+	3350 5850 3350 5200
+Wire Wire Line
+	3350 4850 3950 4850
+Wire Wire Line
+	3950 4850 3950 3550
+Wire Wire Line
+	3950 3550 4050 3550
+Connection ~ 3350 5200
+Wire Wire Line
+	3350 5200 3350 4850
+Wire Wire Line
+	3400 5950 3250 5950
+Wire Wire Line
+	3250 5950 3250 4200
+Wire Wire Line
+	3250 4200 3450 4200
+Wire Wire Line
+	3450 4200 3450 3600
+Wire Wire Line
+	3450 3600 3850 3600
+Wire Wire Line
+	3850 3600 3850 3450
+Wire Wire Line
+	3850 3450 4050 3450
+Wire Wire Line
+	3400 6050 3200 6050
+Wire Wire Line
+	3200 6050 3200 4200
+Wire Wire Line
+	3200 4200 3150 4200
+Wire Wire Line
+	3150 4200 3150 3750
+Wire Wire Line
+	3150 3750 3400 3750
+Wire Wire Line
+	3400 3750 3400 3550
+Wire Wire Line
+	3400 3550 3800 3550
+Wire Wire Line
+	3800 3550 3800 3250
+Wire Wire Line
+	3800 3250 4050 3250
 $EndSCHEMATC
