@@ -1,4 +1,5 @@
 (fp_lib_table
-  (lib (name Arduino)(type KiCad)(uri ${KIPRJMOD}/arduino-kicad-library-master/Arduino.pretty)(options "")(descr ""))
   (lib (name TLE5205)(type KiCad)(uri ${KIPRJMOD}/TLE5205.pretty)(options "")(descr ""))
+  (lib (name nodemcu)(type KiCad)(uri ${KIPRJMOD}/nodemcu.pretty)(options "")(descr ""))
+  (lib (name Arduino)(type KiCad)(uri ${KIPRJMOD}/arduino-kicad-library-master/Arduino.pretty)(options "")(descr ""))
 )
