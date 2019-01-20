@@ -20,7 +20,7 @@ U 1 1 5C0AA3BC
 P 2750 2250
 F 0 "A1" H 2750 1164 50  0000 C CNN
 F 1 "Arduino_Nano_v3.x" H 2750 1073 50  0000 C CNN
-F 2 "Module:Arduino_Nano_WithMountingHoles" H 2900 1300 50  0001 L CNN
+F 2 "Arduino:Arduino_Nano_Socket" H 2900 1300 50  0001 L CNN
 F 3 "http://www.mouser.com/pdfdocs/Gravitech_Arduino_Nano3_0.pdf" H 2750 1250 50  0001 C CNN
 	1    2750 2250
 	1    0    0    -1  
@@ -56,7 +56,7 @@ U 1 1 5C0AA492
 P 7250 4750
 F 0 "A2" H 7250 3664 50  0000 C CNN
 F 1 "Arduino_Nano_v3.x" H 7250 3573 50  0000 C CNN
-F 2 "Module:Arduino_Nano_WithMountingHoles" H 7400 3800 50  0001 L CNN
+F 2 "Arduino:Arduino_Nano_Socket" H 7400 3800 50  0001 L CNN
 F 3 "http://www.mouser.com/pdfdocs/Gravitech_Arduino_Nano3_0.pdf" H 7250 3750 50  0001 C CNN
 	1    7250 4750
 	1    0    0    -1  
@@ -205,7 +205,7 @@ U 1 1 5C41D631
 P 5350 2900
 F 0 "ceramic1" V 5098 2900 50  0000 C CNN
 F 1 "0.1uF" V 5189 2900 50  0000 C CNN
-F 2 "Capacitor_SMD:C_1806_4516Metric" H 5388 2750 50  0001 C CNN
+F 2 "Capacitor_SMD:C_0402_1005Metric" H 5388 2750 50  0001 C CNN
 F 3 "~" H 5350 2900 50  0001 C CNN
 	1    5350 2900
 	0    1    1    0   
@@ -216,7 +216,7 @@ U 1 1 5C41D698
 P 5350 3150
 F 0 "tantal1" V 5098 3150 50  0000 C CNN
 F 1 "10uF" V 5189 3150 50  0000 C CNN
-F 2 "Capacitor_SMD:C_1806_4516Metric" H 5388 3000 50  0001 C CNN
+F 2 "Capacitor_SMD:C_0402_1005Metric" H 5388 3000 50  0001 C CNN
 F 3 "~" H 5350 3150 50  0001 C CNN
 	1    5350 3150
 	0    1    1    0   
@@ -238,14 +238,14 @@ Connection ~ 5500 2950
 Wire Wire Line
 	5500 2950 5500 3150
 $Comp
-L Connector:Conn_01x11_Male J3
+L Connector:Conn_01x07_Male J3
 U 1 1 5C4683E3
-P 10950 3300
-F 0 "J3" V 10785 3276 50  0000 C CNN
-F 1 "Conn_01x11_Male" V 10876 3276 50  0000 C CNN
-F 2 "Connector_JST:JST_EH_B11B-EH-A_1x11_P2.50mm_Vertical" H 10950 3300 50  0001 C CNN
-F 3 "~" H 10950 3300 50  0001 C CNN
-	1    10950 3300
+P 10950 3100
+F 0 "J3" V 10785 3076 50  0000 C CNN
+F 1 "Conn_01x11_Male" V 10876 3076 50  0000 C CNN
+F 2 "Connector_JST:JST_EH_B07B-EH-A_1x07_P2.50mm_Vertical" H 10950 3100 50  0001 C CNN
+F 3 "~" H 10950 3100 50  0001 C CNN
+	1    10950 3100
 	-1   0    0    1   
 $EndComp
 $Comp
@@ -642,32 +642,16 @@ Wire Wire Line
 	5350 1600 5400 1600
 Wire Wire Line
 	2200 2350 2250 2350
-Text GLabel 10700 3700 0    50   Input ~ 0
+Text GLabel 10700 3100 0    50   Input ~ 0
 5V_Main
-Text GLabel 10700 3800 0    50   Input ~ 0
+Text GLabel 10700 3400 0    50   Input ~ 0
 GND
-Wire Wire Line
-	10250 3300 10250 3500
-Wire Wire Line
-	10250 3500 9850 3500
-Wire Wire Line
-	10250 3300 10750 3300
-Wire Wire Line
-	9850 3600 10300 3600
-Wire Wire Line
-	10300 3600 10300 3400
-Wire Wire Line
-	10300 3400 10750 3400
 Wire Wire Line
 	9850 2800 10750 2800
 Wire Wire Line
 	9850 2900 10750 2900
 Wire Wire Line
 	9850 3000 10750 3000
-Wire Wire Line
-	9850 3100 10750 3100
-Wire Wire Line
-	9850 3200 10750 3200
 Wire Wire Line
 	6450 4450 6500 4450
 $Comp
@@ -864,12 +848,6 @@ NoConn ~ 5700 4750
 NoConn ~ 5700 4600
 NoConn ~ 2850 1250
 NoConn ~ 6200 2350
-Wire Wire Line
-	10750 3700 10700 3700
-Wire Wire Line
-	10700 3800 10750 3800
-NoConn ~ 10750 3600
-NoConn ~ 10750 3500
 NoConn ~ 2250 1750
 NoConn ~ 2250 1650
 NoConn ~ 3250 1750
@@ -949,4 +927,63 @@ Wire Wire Line
 Wire Wire Line
 	6700 5850 7350 5850
 NoConn ~ 6200 2450
+Wire Wire Line
+	10700 3400 10750 3400
+Wire Wire Line
+	10700 3100 10750 3100
+Wire Wire Line
+	9850 3100 10300 3100
+Wire Wire Line
+	10300 3100 10300 3200
+Wire Wire Line
+	10300 3200 10750 3200
+Wire Wire Line
+	10250 3300 10250 3200
+Wire Wire Line
+	10250 3200 9850 3200
+Wire Wire Line
+	10250 3300 10750 3300
+$Comp
+L Connector:Conn_01x04_Male Main_Light1
+U 1 1 5C483C75
+P 10750 3700
+F 0 "Main_Light1" H 10723 3580 50  0000 R CNN
+F 1 "Conn_01x02_Male" H 10723 3671 50  0000 R CNN
+F 2 "Connector_Phoenix_MSTB:PhoenixContact_MSTBVA_2,5_4-G_1x04_P5.00mm_Vertical" H 10750 3700 50  0001 C CNN
+F 3 "~" H 10750 3700 50  0001 C CNN
+	1    10750 3700
+	-1   0    0    1   
+$EndComp
+Wire Wire Line
+	10350 3500 10350 3550
+Wire Wire Line
+	10350 3550 10450 3550
+Wire Wire Line
+	10450 3550 10450 3600
+Wire Wire Line
+	10450 3600 10550 3600
+Wire Wire Line
+	9850 3500 10350 3500
+Wire Wire Line
+	10400 3600 10400 3700
+Wire Wire Line
+	10400 3700 10550 3700
+Wire Wire Line
+	9850 3600 10400 3600
+Wire Wire Line
+	10750 3400 10750 3500
+Wire Wire Line
+	10750 3500 10550 3500
+Connection ~ 10750 3400
+Wire Wire Line
+	10750 3100 10750 3150
+Wire Wire Line
+	10750 3150 10800 3150
+Wire Wire Line
+	10800 3150 10800 3850
+Wire Wire Line
+	10800 3850 10550 3850
+Wire Wire Line
+	10550 3850 10550 3800
+Connection ~ 10750 3100
 $EndSCHEMATC
