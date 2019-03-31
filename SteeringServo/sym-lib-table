@@ -1,0 +1,5 @@
+(sym_lib_table
+  (lib (name TLE5205-2G)(type Legacy)(uri ${KIPRJMOD}/TLE5205-2G.lib)(options "")(descr ""))
+  (lib (name arduino)(type Legacy)(uri ${KIPRJMOD}/arduino-kicad-library-master/arduino.lib)(options "")(descr ""))
+  (lib (name crumpschemes)(type Legacy)(uri ${KIPRJMOD}/crumpschemes.lib)(options "")(descr ""))
+)
