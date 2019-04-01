@@ -1,6 +1,6 @@
 EESchema Schematic File Version 4
 LIBS:SteeringServo-cache
-EELAYER 26 0
+EELAYER 29 0
 EELAYER END
 $Descr A4 11693 8268
 encoding utf-8
@@ -23,17 +23,6 @@ F 1 "Arduino_Nano_Socket" H 5350 3881 60  0000 C CNN
 F 2 "Arduino:Arduino_Nano_Socket" H 7150 6500 60  0001 C CNN
 F 3 "https://store.arduino.cc/arduino-nano" H 7150 6500 60  0001 C CNN
 	1    5350 2750
-	1    0    0    -1  
-$EndComp
-$Comp
-L TLE5205-2G:TLE5205 U1
-U 1 1 5CA07E74
-P 8750 1750
-F 0 "U1" H 9128 1740 50  0000 L CNN
-F 1 "TLE5205" H 9128 1649 50  0000 L CNN
-F 2 "Package_TO_SOT_SMD:TO-263-7_TabPin4" H 8750 1750 50  0001 C CNN
-F 3 "" H 8750 1750 50  0001 C CNN
-	1    8750 1750
 	1    0    0    -1  
 $EndComp
 $Comp
@@ -81,19 +70,17 @@ F 3 "~" H 8250 4750 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L Connector:Conn_01x03_Male J2
+L Connector:Conn_01x02_Male J2
 U 1 1 5CA08408
 P 2000 1300
 F 0 "J2" V 2060 1440 50  0000 L CNN
 F 1 "To 12V Converter" V 2151 1440 50  0000 L CNN
-F 2 "Connector_Phoenix_MSTB:PhoenixContact_MSTBVA_2,5_3-G-5,08_1x03_P5.08mm_Vertical" H 2000 1300 50  0001 C CNN
+F 2 "Connector_Phoenix_MSTB:PhoenixContact_MSTBVA_2,5_2-G-5,08_1x02_P5.08mm_Vertical" H 2000 1300 50  0001 C CNN
 F 3 "~" H 2000 1300 50  0001 C CNN
 	1    2000 1300
 	0    1    1    0   
 $EndComp
 Text GLabel 2000 1600 3    50   Input ~ 0
-VIN
-Text GLabel 2100 1600 3    50   Input ~ 0
 GND
 Text GLabel 1900 1600 3    50   Input ~ 0
 12V
@@ -119,15 +106,13 @@ Text GLabel 9300 3850 2    50   Input ~ 0
 5V
 Text GLabel 8750 2100 3    50   Input ~ 0
 GND
-Text GLabel 8650 2100 3    50   Input ~ 0
-M_IN1
 Text GLabel 8850 2100 3    50   Input ~ 0
 M_IN_2
 Text GLabel 8450 2100 3    50   Input ~ 0
 M1
 Text GLabel 9050 2100 3    50   Input ~ 0
 M2
-Text GLabel 4000 2950 0    50   Input ~ 0
+Text GLabel 4050 2350 0    50   Input ~ 0
 SERVO_POTI
 $Comp
 L Connector:Conn_01x05_Male J1
@@ -148,7 +133,7 @@ Text GLabel 8950 2950 3    50   Input ~ 0
 12V
 Text GLabel 8550 2100 3    50   Input ~ 0
 M_ERR
-Text GLabel 6750 2250 2    50   Input ~ 0
+Text GLabel 6750 2450 2    50   Input ~ 0
 M_ERR
 Text GLabel 6750 2550 2    50   Input ~ 0
 Signal
@@ -173,25 +158,23 @@ Text GLabel 2100 3600 3    50   Input ~ 0
 SCL
 Text GLabel 2000 3600 3    50   Input ~ 0
 GND
-Text GLabel 6750 2350 2    50   Input ~ 0
+Text GLabel 6750 2850 2    50   Input ~ 0
 Calibrate
 Text GLabel 5650 4750 2    50   Input ~ 0
 Calibrate
 Text GLabel 5150 4750 0    50   Input ~ 0
 GND
-Text GLabel 6750 2650 2    50   Input ~ 0
+Text GLabel 6750 2350 2    50   Input ~ 0
 M_IN_1
-Text GLabel 6750 2750 2    50   Input ~ 0
+Text GLabel 6750 2250 2    50   Input ~ 0
 M_IN_2
-Text GLabel 6750 2850 2    50   Input ~ 0
-M_ERR
 Text GLabel 2150 2800 3    50   Input ~ 0
-M!
+M1
 Text GLabel 1750 2800 3    50   Input ~ 0
 M2
-Text GLabel 1850 2800 3    50   Input ~ 0
-5V
 Text GLabel 2050 2800 3    50   Input ~ 0
+5V
+Text GLabel 1850 2800 3    50   Input ~ 0
 GND
 Text GLabel 1950 2800 3    50   Input ~ 0
 SERVO_POTI
@@ -206,17 +189,11 @@ Wire Wire Line
 Wire Wire Line
 	6650 2550 6750 2550
 Wire Wire Line
-	6750 2650 6650 2650
-Wire Wire Line
-	6650 2750 6750 2750
-Wire Wire Line
 	6750 2850 6650 2850
 Wire Wire Line
 	4000 2450 4050 2450
 Wire Wire Line
 	4050 2550 4000 2550
-Wire Wire Line
-	4000 2950 4050 2950
 Wire Wire Line
 	4050 3250 4000 3250
 Wire Wire Line
@@ -242,9 +219,7 @@ Wire Wire Line
 Wire Wire Line
 	2150 2800 2150 2750
 Wire Wire Line
-	2100 1600 2100 1500
-Wire Wire Line
-	2000 1500 2000 1600
+	2000 1600 2000 1500
 Wire Wire Line
 	1900 1600 1900 1500
 Wire Wire Line
@@ -293,9 +268,40 @@ Wire Wire Line
 Wire Wire Line
 	8750 2050 8750 2100
 Wire Wire Line
-	8650 2100 8650 2050
-Wire Wire Line
 	8550 2050 8550 2100
 Wire Wire Line
 	8450 2100 8450 2050
+Wire Wire Line
+	6750 2450 6650 2450
+NoConn ~ 6650 2950
+NoConn ~ 6650 2750
+NoConn ~ 6650 2650
+NoConn ~ 6650 1950
+NoConn ~ 6650 1850
+NoConn ~ 4050 1950
+NoConn ~ 4050 1850
+NoConn ~ 4050 2250
+NoConn ~ 4050 2850
+NoConn ~ 4050 2750
+NoConn ~ 4050 2650
+NoConn ~ 4050 3450
+NoConn ~ 9250 3700
+NoConn ~ 9250 3550
+Text GLabel 8650 2100 3    50   Input ~ 0
+M_IN_1
+$Comp
+L TLE5205-2G:TLE5205 U1
+U 1 1 5CA07E74
+P 8750 1750
+F 0 "U1" H 9128 1740 50  0000 L CNN
+F 1 "TLE5205" H 9128 1649 50  0000 L CNN
+F 2 "Package_TO_SOT_SMD:TO-263-7_TabPin4" H 8750 1750 50  0001 C CNN
+F 3 "" H 8750 1750 50  0001 C CNN
+	1    8750 1750
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	8650 2100 8650 2050
+NoConn ~ 4050 3050
+NoConn ~ 4050 2950
 $EndSCHEMATC
