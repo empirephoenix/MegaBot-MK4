@@ -53,7 +53,7 @@ U 1 1 5CA08132
 P 8950 2700
 F 0 "D1" V 8996 2572 50  0000 R CNN
 F 1 "DIODE" V 8905 2572 50  0000 R CNN
-F 2 "Diode_THT:D_A-405_P7.62mm_Horizontal" H 8950 2700 50  0001 C CNN
+F 2 "Diode_THT:D_A-405_P10.16mm_Horizontal" H 8950 2700 50  0001 C CNN
 F 3 "" H 8950 2700 50  0001 C CNN
 	1    8950 2700
 	0    -1   -1   0   
@@ -304,4 +304,26 @@ Wire Wire Line
 	8650 2100 8650 2050
 NoConn ~ 4050 3050
 NoConn ~ 4050 2950
+$Comp
+L Connector:Conn_01x03_Male J4
+U 1 1 5CA4D38E
+P 1400 3400
+F 0 "J4" V 1460 3541 50  0000 L CNN
+F 1 "Signal" V 1551 3541 50  0000 L CNN
+F 2 "Connector_JST:JST_EH_B3B-EH-A_1x03_P2.50mm_Vertical" H 1400 3400 50  0001 C CNN
+F 3 "~" H 1400 3400 50  0001 C CNN
+	1    1400 3400
+	0    1    1    0   
+$EndComp
+Text GLabel 1500 3650 3    50   Input ~ 0
+Signal
+Text GLabel 1300 3650 3    50   Input ~ 0
+GND
+Wire Wire Line
+	1500 3650 1500 3600
+Wire Wire Line
+	1400 3600 1400 3650
+Wire Wire Line
+	1300 3650 1300 3600
+NoConn ~ 1400 3650
 $EndSCHEMATC
