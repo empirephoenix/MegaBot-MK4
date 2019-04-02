@@ -2,19 +2,21 @@
 #include <EEPROM.h>
 #include <APA102.h>
 
-#define PIN_EXTEND 8
-#define PIN_RETRACT 10
-#define PIN_FAILURE 11
-#define PIN_SERVO_POSITION A0
+#define PIN_CALIBRATE_SWITCH 12
+
+#define PIN_ENABLE_MOTOR 7
+#define PIN_DIRECTION 6
+#define PIN_FAILURE 8
+#define PIN_SERVO_POSITION A6
 #define SERVO_STOP_CYCLES 1
 #define DEADBAND 2
 #define CALIBRATE_ANTI_BOUNCE_COUNT 1000
 
 #define EEPROM_MIN_MAX_ADDR_OFFSET 0
-#define PIN_RECEIVER 12
+#define PIN_RECEIVER 9
 
-#define PIN_LED_DATA 5
-#define PIN_LED_CLOCK 4
+#define PIN_LED_DATA 4
+#define PIN_LED_CLOCK 5
 #define COLOR_DIM_GREEN (0, 32, 0)
 #define COLOR_EXTEND (128,128,0)
 #define COLOR_RETRACT (0,255,0)
@@ -96,27 +98,52 @@ void calibrate() {
 
 void move(int delta) {
 	int speed = abs(delta) > 10 ? 0 : 128;
-	analogWrite(PIN_EXTEND, delta > 0 ? 255 : speed);
-	analogWrite(PIN_RETRACT, delta < 0 ? 255 : speed);
+	digitalWrite(PIN_DIRECTION, delta < 0 ? LOW : HIGH);
+	digitalWrite(PIN_ENABLE_MOTOR, LOW);
 }
 
 void stop() {
-	analogWrite(PIN_EXTEND, 255);
-	analogWrite(PIN_RETRACT, 255);
+	digitalWrite(PIN_ENABLE_MOTOR, HIGH);
+	digitalWrite(PIN_DIRECTION, HIGH);
+}
+
+void requestEvent() {
+  while (1 < Wire.available()) { // loop through all but the last
+	char c = Wire.read(); // receive byte as a character
+	Serial.print(c);         // print the character
+  }
+
+  Wire.write("SteeringProtocolV1");
+  Wire.write((int)curPos);
+  Wire.write((int)targetPos);
+}
+
+void handleServoInterrupt(){
+	current_time_int0 = micros();
+	if (digitalRead(PIN_RECEIVER)) {
+		upflank_time0 = current_time_int0;
+	} else  {
+		if(current_time_int0 > upflank_time0){
+			raw_inputs =  current_time_int0 - upflank_time0;
+		}
+	}
 }
 
 void setup() {
-
 	pinMode(13, INPUT_PULLUP);
-	pinMode(PIN_EXTEND, OUTPUT);
-	pinMode(PIN_RETRACT, OUTPUT);
+	pinMode(PIN_DIRECTION, OUTPUT);
+	pinMode(PIN_ENABLE_MOTOR, OUTPUT);
 
 	leds[0].red = 0;
 	leds[0].green = 32;
 	leds[0].blue = 0;
-	void extend(int delta);
 	Serial.begin(115200);
 	pinMode(PIN_SERVO_POSITION, INPUT);
+
+	attachPCINT(digitalPinToPCINT(PIN_RECEIVER), handleServoInterrupt, CHANGE);
+
+	Wire.begin(1);                // join i2c bus with address #8
+  	Wire.onRequest(requestEvent); // register event
 
 	min = eepromReadInt(0);
 	max = eepromReadInt(2);
@@ -128,10 +155,6 @@ void setup() {
 		calibrate();
 	}
 
-	*digitalPinToPCMSK(PIN_RECEIVER) |= bit (digitalPinToPCMSKbit(PIN_RECEIVER));  // enable pin
-	PCIFR  |= bit (digitalPinToPCICRbit(PIN_RECEIVER)); // clear any outstanding interrupt
-	PCICR  |= bit (digitalPinToPCICRbit(PIN_RECEIVER)); // enable interrupt for the group
-
 	curPos = analogRead(PIN_SERVO_POSITION);
 	middleSteering();
 	Serial.println(targetPos);
@@ -142,7 +165,7 @@ void middleSteering() {
 }
 
 void processCalibrate() {
-	if (!digitalRead(13)) {
+	if (!digitalRead(PIN_CALIBRATE_SWITCH)) {
 		calibrateCount++;
 		out COLOR_CALIBRATE_HOLD;
 		if (calibrateCount == CALIBRATE_ANTI_BOUNCE_COUNT) {
@@ -215,18 +238,5 @@ float antiFlickeringAndMovement() {
 	} else {
 		stop();
 		return 0;
-	}
-}
-
-ISR(PCINT0_vect) {
-	current_time_int0 = micros();
-
-	//Channel 1
-	if (digitalRead(PIN_RECEIVER)) {
-		upflank_time0 = current_time_int0;
-	} else  {
-		if(current_time_int0 > upflank_time0){
-			raw_inputs =  current_time_int0 - upflank_time0;
-		}
 	}
 }

@@ -1,5 +1,7 @@
 #include <Arduino.h>
 #include "RunningMedian.h"
+#include <Wire.h>
+#include <PinChangeInterrupt.h>
 
 #ifndef SECONDARYCONTROLLER_H_
 #define SECONDARYCONTROLLER_H_
