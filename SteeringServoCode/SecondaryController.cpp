@@ -18,11 +18,11 @@
 #define PIN_LED_DATA 4
 #define PIN_LED_CLOCK 5
 #define COLOR_DIM_GREEN (0, 32, 0)
-#define COLOR_EXTEND (128,128,0)
-#define COLOR_RETRACT (0,255,0)
-#define COLOR_CALIBRATE_HOLD (0,0,128)
-#define COLOR_CALIBRATE_EXECUTE (0,0,255)
-#define COLOR_ERROR (255,0,0)
+#define COLOR_EXTEND (64,64,0)
+#define COLOR_RETRACT (0,128,0)
+#define COLOR_CALIBRATE_HOLD (0,0,64)
+#define COLOR_CALIBRATE_EXECUTE (0,0,128)
+#define COLOR_ERROR (128,0,0)
 
 APA102<PIN_LED_DATA, PIN_LED_CLOCK> ledStrip;
 rgb_color leds[1];
@@ -130,7 +130,7 @@ void handleServoInterrupt(){
 }
 
 void setup() {
-	pinMode(13, INPUT_PULLUP);
+	pinMode(PIN_CALIBRATE_SWITCH, INPUT_PULLUP);
 	pinMode(PIN_DIRECTION, OUTPUT);
 	pinMode(PIN_ENABLE_MOTOR, OUTPUT);
 
@@ -222,7 +222,7 @@ void loop() {
 
 	if (error) {
 		middleSteering();
-		Serial.print("error ");
+		Serial.println("error ");
 	}
 	float delta = antiFlickeringAndMovement();
 
