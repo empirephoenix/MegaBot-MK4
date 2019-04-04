@@ -1,2 +1,2 @@
 eclipse.preferences.version=1
-libraries=[{"package"\:"arduino","platform"\:"avr","library"\:"EEPROM"},"APA102",{"package"\:"arduino","platform"\:"avr","library"\:"Wire"},"PinChangeInterrupt"]
+libraries=[{"package"\:"arduino","platform"\:"avr","library"\:"EEPROM"},"APA102","FastGPIO",{"package"\:"arduino","platform"\:"avr","library"\:"Wire"},"PinChangeInterrupt","arduino-timer-api"]

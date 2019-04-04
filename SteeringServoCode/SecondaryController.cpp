@@ -1,16 +1,21 @@
 #include "SecondaryController.h"
 #include <EEPROM.h>
 #include <APA102.h>
+#include <timer-api.h>
+#include <FastGPIO.h>
 
 #define PIN_CALIBRATE_SWITCH 12
 
-#define PIN_ENABLE_MOTOR 7
-#define PIN_DIRECTION 6
+#define PIN_IN_1 7
+#define PIN_IN_2 6
 #define PIN_FAILURE 8
 #define PIN_SERVO_POSITION A6
 #define SERVO_STOP_CYCLES 1
 #define DEADBAND 2
 #define CALIBRATE_ANTI_BOUNCE_COUNT 1000
+#define MOTOR_PWM_TIMER TIMER_DEFAULT
+#define PWM_RAMP 25
+#define PWM_HZ 100
 
 #define EEPROM_MIN_MAX_ADDR_OFFSET 0
 #define PIN_RECEIVER 9
@@ -39,9 +44,11 @@ int max = -1;
 volatile int receiver_input = 0;
 volatile int raw_inputs = 0;
 volatile long diff = 0;
-//not volatile only interrupt handler
 volatile unsigned long current_time_int0 = 0;
-volatile  unsigned long upflank_time0 = 0;
+volatile unsigned long upflank_time0 = 0;
+
+volatile int steering_Speed = 0;
+volatile int steering_tick = 0;
 
 void out(byte r, byte g, byte b) {
 	leds[0].red = r;
@@ -68,7 +75,7 @@ void calibrate() {
 	boolean calibrating = true;
 	while (calibrating) {
 		int prior = analogRead(PIN_SERVO_POSITION);
-		move(-26);
+		steering_Speed = -26;
 		delay(200);
 		int after = analogRead(PIN_SERVO_POSITION);
 		if (abs(prior - after) < DEADBAND * 2) {
@@ -79,7 +86,7 @@ void calibrate() {
 	calibrating = true;
 	while (calibrating) {
 		int prior = analogRead(PIN_SERVO_POSITION);
-		move(26);
+		steering_Speed = 26;
 		delay(200);
 		int after = analogRead(PIN_SERVO_POSITION);
 		if (abs(prior - after) < DEADBAND * 2) {
@@ -96,60 +103,124 @@ void calibrate() {
 	middleSteering();
 }
 
-void move(int delta) {
-	int speed = abs(delta) > 10 ? 0 : 128;
-	digitalWrite(PIN_DIRECTION, delta < 0 ? LOW : HIGH);
-	digitalWrite(PIN_ENABLE_MOTOR, LOW);
-}
-
-void stop() {
-	digitalWrite(PIN_ENABLE_MOTOR, HIGH);
-	digitalWrite(PIN_DIRECTION, HIGH);
-}
-
 void requestEvent() {
-  while (1 < Wire.available()) { // loop through all but the last
-	char c = Wire.read(); // receive byte as a character
-	Serial.print(c);         // print the character
-  }
+	while (1 < Wire.available()) { // loop through all but the last
+		char c = Wire.read(); // receive byte as a character
+		Serial.print(c);         // print the character
+	}
 
-  Wire.write("SteeringProtocolV1");
-  Wire.write((int)curPos);
-  Wire.write((int)targetPos);
+	Wire.write("SteeringProtocolV1");
+	Wire.write((int) curPos);
+	Wire.write((int) targetPos);
 }
 
-void handleServoInterrupt(){
+void handleServoInterrupt() {
 	current_time_int0 = micros();
-	if (digitalRead(PIN_RECEIVER)) {
+	if (FastGPIO::Pin<PIN_RECEIVER>::isInputHigh()) {
 		upflank_time0 = current_time_int0;
-	} else  {
-		if(current_time_int0 > upflank_time0){
-			raw_inputs =  current_time_int0 - upflank_time0;
+	} else {
+		if (current_time_int0 > upflank_time0) {
+			raw_inputs = current_time_int0 - upflank_time0;
 		}
 	}
 }
 
-void setup() {
-	pinMode(13, INPUT_PULLUP);
-	pinMode(PIN_DIRECTION, OUTPUT);
-	pinMode(PIN_ENABLE_MOTOR, OUTPUT);
+void timer_handle_interrupts(int timer) {
+	if (timer == MOTOR_PWM_TIMER) {
+		steering_tick++;
+		if (steering_tick == PWM_HZ) {
+			steering_tick = 0;
+		}
+		//LL is clockwise
+		//LH is counterclockwise
+		//HL is brake (avoid this except for speed = 0
+		//HH is open circuit
+		if (steering_Speed == 0) {
+			cli();
+			FastGPIO::Pin<PIN_IN_1>::setOutputHigh();
+			FastGPIO::Pin<PIN_IN_2>::setOutputLow();
+			sei();
+		} else {
+			//calculate percent of active duty cycle
+			int dutyPCT = 0;
+			int absSpeed = abs(steering_Speed);
+			bool clockwise = steering_Speed > 0;
+			if (absSpeed >= PWM_RAMP) {
+				dutyPCT = 100;
+			} else {
+				dutyPCT = steering_Speed * 100 / PWM_RAMP;
+			}
+			//find out how often ticks are high
+			//1 = 100
+			//2 = 50
+			//3 = 33
+			//4 = 25
+			int moduloCounter = 0;
+			if (dutyPCT > 50) {
+				moduloCounter = 1;
+			} else if (dutyPCT > 33) {
+				moduloCounter = 2;
+			} else if (dutyPCT > 25) {
+				moduloCounter = 3;
+			} else {
+				moduloCounter = 4;
+			}
+			cli();
+			bool enabled = steering_tick % moduloCounter == 0;
+			if (enabled) {
+				if (clockwise) {
+					FastGPIO::Pin<PIN_IN_1>::setOutputLow();
+					FastGPIO::Pin<PIN_IN_2>::setOutputLow();
+				} else {
+					FastGPIO::Pin<PIN_IN_1>::setOutputLow();
+					FastGPIO::Pin<PIN_IN_2>::setOutputHigh();
+				}
+			} else {
+				FastGPIO::Pin<PIN_IN_1>::setOutputHigh();
+				FastGPIO::Pin<PIN_IN_2>::setOutputHigh();
+				// open circuit
+			}
+			sei();
+		}
 
+	}
+}
+
+void setup() {
+	Serial.begin(115200);
+
+	Serial.println("init LED");
 	leds[0].red = 0;
 	leds[0].green = 32;
 	leds[0].blue = 0;
-	Serial.begin(115200);
+
+	Serial.println("init normal Pins");
+	pinMode(PIN_CALIBRATE_SWITCH, INPUT_PULLUP);
+	pinMode(PIN_FAILURE, INPUT_PULLUP);
 	pinMode(PIN_SERVO_POSITION, INPUT);
 
+	Serial.println("init rc interrupt handler");
 	attachPCINT(digitalPinToPCINT(PIN_RECEIVER), handleServoInterrupt, CHANGE);
 
-	Wire.begin(1);                // join i2c bus with address #8
-  	Wire.onRequest(requestEvent); // register event
+	Serial.println("init motor controller");
+	cli();
+	FastGPIO::Pin<PIN_IN_1>::setOutput(HIGH);
+	FastGPIO::Pin<PIN_IN_2>::setOutput(LOW);
+	sei();
 
-	min = eepromReadInt(0);
-	max = eepromReadInt(2);
+	Serial.println("init motor pwm control");
+	timer_init_ISR_100Hz(MOTOR_PWM_TIMER);
+
+	Serial.println("init i2c");
+	Wire.begin(1);                // join i2c bus with address #8
+	Wire.onRequest(requestEvent); // register event
+
+	Serial.println("init operationmode");
 	Serial.print("reading calibration min ");
+	min = eepromReadInt(0);
 	Serial.print(min);
 	Serial.print(" max ");
+	max = eepromReadInt(2);
 	Serial.println(max);
 	if (min + 200 > max) {
 		calibrate();
@@ -165,7 +236,8 @@ void middleSteering() {
 }
 
 void processCalibrate() {
-	if (!digitalRead(PIN_CALIBRATE_SWITCH)) {
+
+	if (!FastGPIO::Pin<PIN_CALIBRATE_SWITCH>::isInputHigh()) {
 		calibrateCount++;
 		out COLOR_CALIBRATE_HOLD;
 		if (calibrateCount == CALIBRATE_ANTI_BOUNCE_COUNT) {
@@ -179,7 +251,7 @@ void processCalibrate() {
 }
 
 void updateLED(float delta, bool error) {
-	if (error) {
+	if (error || FastGPIO::Pin<PIN_FAILURE>::isInputHigh()) {
 		out COLOR_ERROR;
 		return;
 	}
@@ -206,7 +278,8 @@ void loop() {
 	diff = micros() - current_time_int0;
 	int sample = analogRead(PIN_SERVO_POSITION);
 	long int potiMappedRawInput = 0;
-	if (sample >= min && sample <= max && raw_inputs > 800 && raw_inputs < 2200) {
+	if (sample >= min && sample <= max && raw_inputs > 800
+			&& raw_inputs < 2200) {
 		filterdSensor.add(sample);
 		curPos = filterdSensor.getMedian();
 		potiMappedRawInput = map(raw_inputs, 1000, 2000, min, max);
@@ -225,7 +298,7 @@ void loop() {
 		Serial.print("error ");
 	}
 	float delta = antiFlickeringAndMovement();
-
+	steering_Speed = delta;
 	processCalibrate();
 	updateLED(delta, error);
 }
@@ -233,10 +306,8 @@ void loop() {
 float antiFlickeringAndMovement() {
 	float delta = targetPos - curPos;
 	if (delta < - DEADBAND || delta > DEADBAND) {
-		move(delta);
 		return delta;
 	} else {
-		stop();
 		return 0;
 	}
 }
