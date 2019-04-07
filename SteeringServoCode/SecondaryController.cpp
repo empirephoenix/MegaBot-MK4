@@ -27,7 +27,9 @@
 #define COLOR_RETRACT (0,255,0)
 #define COLOR_CALIBRATE_HOLD (0,0,128)
 #define COLOR_CALIBRATE_EXECUTE (0,0,255)
+#define COLOR_ERROR_CALIBRATE (0,255,128)
 #define COLOR_ERROR (255,0,0)
+#define COLOR_ERROR_MC (128,128,128)
 
 APA102<PIN_LED_DATA, PIN_LED_CLOCK> ledStrip;
 rgb_color leds[1];
@@ -76,7 +78,7 @@ void calibrate() {
 	while (calibrating) {
 		int prior = analogRead(PIN_SERVO_POSITION);
 		steering_Speed = -26;
-		delay(200);
+		delay(500);
 		int after = analogRead(PIN_SERVO_POSITION);
 		if (abs(prior - after) < DEADBAND * 2) {
 			min = (prior + after) / 2;
@@ -87,7 +89,7 @@ void calibrate() {
 	while (calibrating) {
 		int prior = analogRead(PIN_SERVO_POSITION);
 		steering_Speed = 26;
-		delay(200);
+		delay(500);
 		int after = analogRead(PIN_SERVO_POSITION);
 		if (abs(prior - after) < DEADBAND * 2) {
 			max = (prior + after) / 2;
@@ -144,12 +146,12 @@ void timer_handle_interrupts(int timer) {
 			//calculate percent of active duty cycle
 			int dutyPCT = 0;
 			int absSpeed = abs(steering_Speed);
-			bool clockwise = steering_Speed > 0;
-			if (absSpeed >= PWM_RAMP) {
-				dutyPCT = 100;
-			} else {
-				dutyPCT = steering_Speed * 100 / PWM_RAMP;
-			}
+			bool clockwise = steering_Speed < 0;
+//			if (absSpeed >= PWM_RAMP) {
+				dutyPCT = 25;
+//			} else {
+//				dutyPCT = steering_Speed * 100 / PWM_RAMP;
+//			}
 			//find out how often ticks are high
 			//1 = 100
 			//2 = 50
@@ -196,7 +198,7 @@ void setup() {
 
 	Serial.println("init normal Pins");
 	pinMode(PIN_CALIBRATE_SWITCH, INPUT_PULLUP);
-	pinMode(PIN_FAILURE, INPUT_PULLUP);
+	pinMode(PIN_FAILURE, INPUT);
 	pinMode(PIN_SERVO_POSITION, INPUT);
 
 	Serial.println("init rc interrupt handler");
@@ -222,10 +224,6 @@ void setup() {
 	Serial.print(" max ");
 	max = eepromReadInt(2);
 	Serial.println(max);
-	if (min + 200 > max) {
-		calibrate();
-	}
-
 	curPos = analogRead(PIN_SERVO_POSITION);
 	middleSteering();
 	Serial.println(targetPos);
@@ -236,10 +234,9 @@ void middleSteering() {
 }
 
 void processCalibrate() {
-
+	Serial.print(FastGPIO::Pin<PIN_CALIBRATE_SWITCH>::isInputHigh());
 	if (!FastGPIO::Pin<PIN_CALIBRATE_SWITCH>::isInputHigh()) {
 		calibrateCount++;
-		out COLOR_CALIBRATE_HOLD;
 		if (calibrateCount == CALIBRATE_ANTI_BOUNCE_COUNT) {
 			updateLED(0, false);
 			calibrate();
@@ -251,8 +248,19 @@ void processCalibrate() {
 }
 
 void updateLED(float delta, bool error) {
-	if (error || FastGPIO::Pin<PIN_FAILURE>::isInputHigh()) {
-		out COLOR_ERROR;
+	if (FastGPIO::Pin<PIN_FAILURE>::isInputHigh()) {
+		Serial.println("error mc");
+		out COLOR_ERROR_MC;
+		return;
+	}
+	if (error) {
+			Serial.println("error check signal");
+			out COLOR_ERROR;
+			return;
+		}
+	if (min + 200 > max) {
+		out COLOR_ERROR_CALIBRATE;
+		Serial.println("error calibrate required");
 		return;
 	}
 	if (calibrateCount == CALIBRATE_ANTI_BOUNCE_COUNT) {
@@ -275,6 +283,7 @@ void updateLED(float delta, bool error) {
 }
 
 void loop() {
+	delay(5);
 	diff = micros() - current_time_int0;
 	int sample = analogRead(PIN_SERVO_POSITION);
 	long int potiMappedRawInput = 0;
@@ -295,7 +304,6 @@ void loop() {
 
 	if (error) {
 		middleSteering();
-		Serial.print("error ");
 	}
 	float delta = antiFlickeringAndMovement();
 	steering_Speed = delta;
