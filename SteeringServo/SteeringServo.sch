@@ -84,10 +84,8 @@ Text GLabel 2000 1600 3    50   Input ~ 0
 GND
 Text GLabel 1900 1600 3    50   Input ~ 0
 12V
-Text GLabel 4000 3650 0    50   Input ~ 0
+Text GLabel 3500 3650 0    50   Input ~ 0
 12V
-Text GLabel 4000 3250 0    50   Input ~ 0
-GND
 Text GLabel 4000 3350 0    50   Input ~ 0
 GND
 Text GLabel 6750 2050 2    50   Input ~ 0
@@ -195,13 +193,9 @@ Wire Wire Line
 Wire Wire Line
 	4050 2550 4000 2550
 Wire Wire Line
-	4050 3250 4000 3250
-Wire Wire Line
 	4000 3350 4050 3350
 Wire Wire Line
 	4050 3550 4000 3550
-Wire Wire Line
-	4000 3650 4050 3650
 Wire Wire Line
 	2200 3600 2200 3550
 Wire Wire Line
@@ -326,4 +320,18 @@ Wire Wire Line
 Wire Wire Line
 	1300 3650 1300 3600
 NoConn ~ 1400 3650
+$Comp
+L pspice:DIODE D2
+U 1 1 5CADDDAE
+P 3700 3650
+F 0 "D2" H 3700 3915 50  0000 C CNN
+F 1 "DIODE" H 3700 3824 50  0000 C CNN
+F 2 "Diode_THT:D_A-405_P10.16mm_Horizontal" H 3700 3650 50  0001 C CNN
+F 3 "~" H 3700 3650 50  0001 C CNN
+	1    3700 3650
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	3900 3650 4050 3650
+NoConn ~ 4050 3250
 $EndSCHEMATC
