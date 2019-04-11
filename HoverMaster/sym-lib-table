@@ -1,0 +1,4 @@
+(sym_lib_table
+  (lib (name arduino)(type Legacy)(uri ${KIPRJMOD}/arduino-kicad-library-master/arduino.lib)(options "")(descr ""))
+  (lib (name nodemcu)(type Legacy)(uri ${KIPRJMOD}/nodemcu/nodemcu.lib)(options "")(descr ""))
+)
