@@ -1,6 +1,6 @@
 EESchema Schematic File Version 4
 LIBS:SteeringServo-cache
-EELAYER 29 0
+EELAYER 26 0
 EELAYER END
 $Descr A4 11693 8268
 encoding utf-8
@@ -84,8 +84,6 @@ Text GLabel 2000 1600 3    50   Input ~ 0
 GND
 Text GLabel 1900 1600 3    50   Input ~ 0
 12V
-Text GLabel 3500 3650 0    50   Input ~ 0
-12V
 Text GLabel 4000 3350 0    50   Input ~ 0
 GND
 Text GLabel 6750 2050 2    50   Input ~ 0
@@ -98,7 +96,7 @@ Text GLabel 8300 3700 0    50   Input ~ 0
 LED_CIN
 Text GLabel 8300 3850 0    50   Input ~ 0
 GND
-Text GLabel 4000 3550 0    50   Input ~ 0
+Text GLabel 3600 3500 1    50   Input ~ 0
 5V
 Text GLabel 9300 3850 2    50   Input ~ 0
 5V
@@ -194,8 +192,6 @@ Wire Wire Line
 	4050 2550 4000 2550
 Wire Wire Line
 	4000 3350 4050 3350
-Wire Wire Line
-	4050 3550 4000 3550
 Wire Wire Line
 	2200 3600 2200 3550
 Wire Wire Line
@@ -320,18 +316,31 @@ Wire Wire Line
 Wire Wire Line
 	1300 3650 1300 3600
 NoConn ~ 1400 3650
+NoConn ~ 4050 3250
 $Comp
-L pspice:DIODE D2
-U 1 1 5CADDDAE
-P 3700 3650
-F 0 "D2" H 3700 3915 50  0000 C CNN
-F 1 "DIODE" H 3700 3824 50  0000 C CNN
-F 2 "Diode_THT:D_A-405_P10.16mm_Horizontal" H 3700 3650 50  0001 C CNN
-F 3 "~" H 3700 3650 50  0001 C CNN
-	1    3700 3650
+L Regulator_Linear:L7805 U3
+U 1 1 5CB25D75
+P 3050 3550
+F 0 "U3" H 3050 3792 50  0000 C CNN
+F 1 "L7805" H 3050 3701 50  0000 C CNN
+F 2 "Package_TO_SOT_THT:TO-220-3_Vertical" H 3075 3400 50  0001 L CIN
+F 3 "http://www.st.com/content/ccc/resource/technical/document/datasheet/41/4f/b3/b0/12/d4/47/88/CD00000444.pdf/files/CD00000444.pdf/jcr:content/translations/en.CD00000444.pdf" H 3050 3500 50  0001 C CNN
+	1    3050 3550
 	1    0    0    -1  
 $EndComp
 Wire Wire Line
-	3900 3650 4050 3650
-NoConn ~ 4050 3250
+	3350 3550 3600 3550
+Wire Wire Line
+	3600 3500 3600 3550
+Connection ~ 3600 3550
+Wire Wire Line
+	3600 3550 4050 3550
+Wire Wire Line
+	3050 3850 4000 3850
+Wire Wire Line
+	4000 3850 4000 3350
+Text GLabel 2700 3550 0    50   Input ~ 0
+12V
+Wire Wire Line
+	2700 3550 2750 3550
 $EndSCHEMATC

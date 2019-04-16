@@ -14,7 +14,7 @@
 #define DEADBAND 2
 #define CALIBRATE_ANTI_BOUNCE_COUNT 1000
 #define MOTOR_PWM_TIMER TIMER_DEFAULT
-#define PWM_RAMP 25
+#define PWM_RAMP 50
 #define PWM_HZ 100
 
 #define EEPROM_MIN_MAX_ADDR_OFFSET 0
@@ -51,6 +51,7 @@ volatile unsigned long upflank_time0 = 0;
 
 volatile int steering_Speed = 0;
 volatile int steering_tick = 0;
+volatile int dutyPCT = 0;
 
 void out(byte r, byte g, byte b) {
 	leds[0].red = r;
@@ -144,14 +145,13 @@ void timer_handle_interrupts(int timer) {
 			sei();
 		} else {
 			//calculate percent of active duty cycle
-			int dutyPCT = 0;
 			int absSpeed = abs(steering_Speed);
 			bool clockwise = steering_Speed < 0;
-//			if (absSpeed >= PWM_RAMP) {
-				dutyPCT = 25;
-//			} else {
-//				dutyPCT = steering_Speed * 100 / PWM_RAMP;
-//			}
+			if (absSpeed >= PWM_RAMP) {
+				dutyPCT = 100;
+			} else {
+				dutyPCT = absSpeed * 100 / PWM_RAMP;
+			}
 			//find out how often ticks are high
 			//1 = 100
 			//2 = 50
@@ -164,8 +164,10 @@ void timer_handle_interrupts(int timer) {
 				moduloCounter = 2;
 			} else if (dutyPCT > 25) {
 				moduloCounter = 3;
-			} else {
+			} else if (dutyPCT > 12) {
 				moduloCounter = 4;
+			} else {
+				moduloCounter = 5;
 			}
 			cli();
 			bool enabled = steering_tick % moduloCounter == 0;
@@ -178,9 +180,15 @@ void timer_handle_interrupts(int timer) {
 					FastGPIO::Pin<PIN_IN_2>::setOutputHigh();
 				}
 			} else {
-				FastGPIO::Pin<PIN_IN_1>::setOutputHigh();
-				FastGPIO::Pin<PIN_IN_2>::setOutputHigh();
-				// open circuit
+				if(moduloCounter == 5){
+					//brake
+					FastGPIO::Pin<PIN_IN_1>::setOutputHigh();
+					FastGPIO::Pin<PIN_IN_2>::setOutputLow();
+				} else {
+					// open circuit
+					FastGPIO::Pin<PIN_IN_1>::setOutputHigh();
+					FastGPIO::Pin<PIN_IN_2>::setOutputHigh();
+				}
 			}
 			sei();
 		}
@@ -234,7 +242,6 @@ void middleSteering() {
 }
 
 void processCalibrate() {
-	Serial.print(FastGPIO::Pin<PIN_CALIBRATE_SWITCH>::isInputHigh());
 	if (!FastGPIO::Pin<PIN_CALIBRATE_SWITCH>::isInputHigh()) {
 		calibrateCount++;
 		if (calibrateCount == CALIBRATE_ANTI_BOUNCE_COUNT) {
@@ -254,10 +261,10 @@ void updateLED(float delta, bool error) {
 		return;
 	}
 	if (error) {
-			Serial.println("error check signal");
-			out COLOR_ERROR;
-			return;
-		}
+		Serial.println("error check signal");
+		out COLOR_ERROR;
+		return;
+	}
 	if (min + 200 > max) {
 		out COLOR_ERROR_CALIBRATE;
 		Serial.println("error calibrate required");
@@ -283,29 +290,32 @@ void updateLED(float delta, bool error) {
 }
 
 void loop() {
-	delay(5);
+	delay(1);
 	diff = micros() - current_time_int0;
 	int sample = analogRead(PIN_SERVO_POSITION);
 	long int potiMappedRawInput = 0;
-	if (sample >= min && sample <= max && raw_inputs > 800
-			&& raw_inputs < 2200) {
+	if (sample >= min && sample <= max) {
 		filterdSensor.add(sample);
-		curPos = filterdSensor.getMedian();
+	}
+	curPos = filterdSensor.getMedian();
+	if (raw_inputs > 800 && raw_inputs < 2200) {
 		potiMappedRawInput = map(raw_inputs, 1000, 2000, min, max);
 		filterdInput.add(potiMappedRawInput);
-		targetPos = filterdInput.getMedian();
-		Serial.print(curPos);
-		Serial.print(" ");
-		Serial.println(targetPos);
-	} else {
-		curPos = targetPos;
 	}
-	bool error = (diff > 250000 || raw_inputs < 800);
+	targetPos = filterdInput.getMedian();
+	bool error = (diff > 250000);
 
 	if (error) {
 		middleSteering();
 	}
 	float delta = antiFlickeringAndMovement();
+	Serial.print(dutyPCT);
+	Serial.print(" ");
+	Serial.print(curPos);
+	Serial.print(" ");
+	Serial.print(targetPos);
+	Serial.println();
+
 	steering_Speed = delta;
 	processCalibrate();
 	updateLED(delta, error);
@@ -313,9 +323,8 @@ void loop() {
 
 float antiFlickeringAndMovement() {
 	float delta = targetPos - curPos;
-	if (delta < - DEADBAND || delta > DEADBAND) {
-		return delta;
-	} else {
-		return 0;
+	if(abs(delta) < DEADBAND){
+		delta = 0;
 	}
+	return delta;
 }
