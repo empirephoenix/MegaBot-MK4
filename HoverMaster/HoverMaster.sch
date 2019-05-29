@@ -150,9 +150,9 @@ Wire Wire Line
 	9950 1450 10000 1450
 Wire Wire Line
 	10000 1550 9950 1550
-Text GLabel 10300 3550 2    50   Input ~ 0
+Text GLabel 10250 3050 2    50   Input ~ 0
 HOVER_POWER_RELAY
-Text GLabel 10300 3050 2    50   Input ~ 0
+Text GLabel 10300 3150 2    50   Input ~ 0
 PPM_OUT
 $Comp
 L Connector_Generic:Conn_01x04 Receiver_Power1
@@ -215,17 +215,17 @@ Wire Wire Line
 	6450 3050 6450 3100
 Wire Wire Line
 	6550 3050 6550 3100
-Text GLabel 10350 3150 2    50   Input ~ 0
+Text GLabel 10350 3250 2    50   Input ~ 0
 Signal_Steering
 $Comp
-L Connector_Generic:Conn_01x04 Left_Sensor1
+L Connector_Generic:Conn_01x02 Left_Sensor1
 U 1 1 5CC05E03
-P 5700 2000
-F 0 "Left_Sensor1" H 5780 1992 50  0000 L CNN
-F 1 "Conn_01x04" H 5780 1901 50  0000 L CNN
-F 2 "Connector_JST:JST_EH_B4B-EH-A_1x04_P2.50mm_Vertical" H 5700 2000 50  0001 C CNN
-F 3 "~" H 5700 2000 50  0001 C CNN
-	1    5700 2000
+P 5700 2100
+F 0 "Left_Sensor1" H 5780 2092 50  0000 L CNN
+F 1 "Conn_01x02" H 5780 2001 50  0000 L CNN
+F 2 "Connector_Wire:SolderWirePad_1x02_P3.81mm_Drill1.2mm" H 5700 2100 50  0001 C CNN
+F 3 "~" H 5700 2100 50  0001 C CNN
+	1    5700 2100
 	1    0    0    -1  
 $EndComp
 Text GLabel 5350 2100 0    50   Input ~ 0
@@ -234,7 +234,6 @@ Text GLabel 5350 2200 0    50   Input ~ 0
 GND
 Wire Wire Line
 	5350 2200 5500 2200
-NoConn ~ 5500 2000
 $Comp
 L arduino:Arduino_Nano_Socket XA1
 U 1 1 5CBDDEF6
@@ -246,7 +245,6 @@ F 3 "https://store.arduino.cc/arduino-nano" H 10750 7600 60  0001 C CNN
 	1    8950 3850
 	1    0    0    -1  
 $EndComp
-NoConn ~ 5500 1900
 NoConn ~ 10250 3350
 NoConn ~ 10250 3450
 NoConn ~ 10250 4050
@@ -269,13 +267,11 @@ NoConn ~ 7650 3350
 NoConn ~ 7650 3050
 NoConn ~ 7650 2950
 Wire Wire Line
-	10250 3550 10300 3550
-Wire Wire Line
 	10300 3950 10250 3950
 Wire Wire Line
 	10250 3850 10300 3850
 Wire Wire Line
-	10300 3050 10250 3050
+	10300 3150 10250 3150
 Wire Wire Line
 	10250 2950 10300 2950
 Wire Wire Line
@@ -288,13 +284,80 @@ Wire Wire Line
 	6650 3100 6650 3050
 Wire Wire Line
 	5500 2100 5350 2100
-Wire Wire Line
-	10250 2900 10250 2950
-Connection ~ 10250 2950
 NoConn ~ 10250 3250
-NoConn ~ 10250 3150
+NoConn ~ 10250 3550
 Wire Wire Line
-	10300 3050 10300 3150
+	10300 3150 10300 3250
 Wire Wire Line
-	10300 3150 10350 3150
+	10300 3250 10350 3250
+Text GLabel 9050 5350 2    50   Input ~ 0
+HOVER_POWER_RELAY
+Wire Wire Line
+	8100 5350 8300 5350
+Text GLabel 8100 5350 0    50   Input ~ 0
+GND
+Wire Wire Line
+	8900 5350 9050 5350
+$Comp
+L Connector:Conn_01x02_Male J1
+U 1 1 5CF03D3D
+P 7950 5900
+F 0 "J1" H 8058 6081 50  0000 C CNN
+F 1 "Conn_01x02_Male" H 8058 5990 50  0000 C CNN
+F 2 "Connector_Wire:SolderWirePad_1x02_P5.08mm_Drill1.5mm" H 7950 5900 50  0001 C CNN
+F 3 "~" H 7950 5900 50  0001 C CNN
+	1    7950 5900
+	1    0    0    -1  
+$EndComp
+$Comp
+L Connector:Conn_01x02_Male J2
+U 1 1 5CF04621
+P 9350 6000
+F 0 "J2" H 9322 5882 50  0000 R CNN
+F 1 "Conn_01x02_Male" H 9322 5973 50  0000 R CNN
+F 2 "Connector_Wire:SolderWirePad_1x02_P5.08mm_Drill1.5mm" H 9350 6000 50  0001 C CNN
+F 3 "~" H 9350 6000 50  0001 C CNN
+	1    9350 6000
+	-1   0    0    1   
+$EndComp
+Wire Wire Line
+	8150 6000 8150 6150
+Wire Wire Line
+	8150 6150 8300 6150
+NoConn ~ 8900 5650
+NoConn ~ 8900 6050
+NoConn ~ 11650 4450
+$Comp
+L Relay:FRT5 K1
+U 1 1 5CEFDC67
+P 8600 5750
+F 0 "K1" V 7833 5750 50  0000 C CNN
+F 1 "FRT5" V 7924 5750 50  0000 C CNN
+F 2 "Relay_THT:Relay_DPDT_FRT5" H 9250 5700 50  0001 L CNN
+F 3 "https://www.elpro.org/de/index.php?controller=attachment&id_attachment=8663" H 9250 5900 50  0001 C CNN
+	1    8600 5750
+	0    1    1    0   
+$EndComp
+Wire Wire Line
+	9100 5850 9100 5900
+Wire Wire Line
+	9100 5900 9150 5900
+Wire Wire Line
+	8900 5850 9100 5850
+Wire Wire Line
+	8300 5750 8300 5950
+Wire Wire Line
+	8300 5950 9050 5950
+Wire Wire Line
+	9050 5950 9050 6000
+Wire Wire Line
+	9050 6000 9150 6000
+Wire Wire Line
+	8900 6250 8900 6350
+Wire Wire Line
+	8900 6350 7850 6350
+Wire Wire Line
+	7850 6350 7850 5900
+Wire Wire Line
+	7850 5900 8150 5900
 $EndSCHEMATC

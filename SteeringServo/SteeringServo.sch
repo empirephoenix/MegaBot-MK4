@@ -1,6 +1,5 @@
 EESchema Schematic File Version 4
-LIBS:SteeringServo-cache
-EELAYER 26 0
+EELAYER 29 0
 EELAYER END
 $Descr A4 11693 8268
 encoding utf-8
@@ -343,4 +342,23 @@ Text GLabel 2700 3550 0    50   Input ~ 0
 12V
 Wire Wire Line
 	2700 3550 2750 3550
+$Comp
+L Device:R R1
+U 1 1 5CBC4D3E
+P 5300 3900
+F 0 "R1" V 5093 3900 50  0000 C CNN
+F 1 "R10k" V 5184 3900 50  0000 C CNN
+F 2 "Resistor_THT:R_Axial_DIN0309_L9.0mm_D3.2mm_P5.08mm_Vertical" V 5230 3900 50  0001 C CNN
+F 3 "~" H 5300 3900 50  0001 C CNN
+	1    5300 3900
+	0    1    1    0   
+$EndComp
+Text GLabel 5500 3900 2    50   Input ~ 0
+M_IN_1
+Text GLabel 5100 3900 0    50   Input ~ 0
+5V
+Wire Wire Line
+	5100 3900 5150 3900
+Wire Wire Line
+	5450 3900 5500 3900
 $EndSCHEMATC
