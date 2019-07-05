@@ -98,6 +98,7 @@ void setup() {
 	leds[0].blue = 0;
 
 	pinMode(PIN_HOVER_RELAY, OUTPUT);
+	digitalWrite(PIN_HOVER_RELAY, false);
 	pinMode(PIN_LED_1, OUTPUT);
 	pinMode(PIN_LED_2, OUTPUT);
 //
@@ -222,6 +223,7 @@ void loop() {
 		lightLevelMedian.add(ppmReader.get(6));
 		process();
 	} else {
+		digitalWrite(PIN_HOVER_RELAY, false);
 		doNoReceiverLight();
 		ppm[0] = 1500;
 		ppm[1] = 1500;
