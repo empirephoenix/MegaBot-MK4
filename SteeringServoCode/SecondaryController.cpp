@@ -1,4 +1,5 @@
 #include "SecondaryController.h"
+#include "PPMReader.h"
 #include <EEPROM.h>
 #include <APA102.h>
 #include <timer-api.h>
@@ -18,7 +19,8 @@
 #define PWM_HZ 100
 
 #define EEPROM_MIN_MAX_ADDR_OFFSET 0
-#define PIN_RECEIVER 9
+#define PIN_PPM_IN 9
+#define PPM_CHANNEL 7
 
 #define PIN_LED_DATA 4
 #define PIN_LED_CLOCK 5
@@ -43,8 +45,6 @@ int calibrateCount = 0;
 int min = -1;
 int max = -1;
 
-volatile int receiver_input = 0;
-volatile int raw_inputs = 0;
 volatile long diff = 0;
 volatile unsigned long current_time_int0 = 0;
 volatile unsigned long upflank_time0 = 0;
@@ -52,6 +52,8 @@ volatile unsigned long upflank_time0 = 0;
 volatile int steering_Speed = 0;
 volatile int steering_tick = 0;
 volatile int dutyPCT = 0;
+
+PPMReader ppmReader(PIN_PPM_IN, 0, false);
 
 void out(byte r, byte g, byte b) {
 	leds[0].red = r;
@@ -115,17 +117,6 @@ void requestEvent() {
 	Wire.write("SteeringProtocolV1");
 	Wire.write((int) curPos);
 	Wire.write((int) targetPos);
-}
-
-void handleServoInterrupt() {
-	current_time_int0 = micros();
-	if (FastGPIO::Pin<PIN_RECEIVER>::isInputHigh()) {
-		upflank_time0 = current_time_int0;
-	} else {
-		if (current_time_int0 > upflank_time0) {
-			raw_inputs = current_time_int0 - upflank_time0;
-		}
-	}
 }
 
 void timer_handle_interrupts(int timer) {
@@ -208,9 +199,6 @@ void setup() {
 	pinMode(PIN_CALIBRATE_SWITCH, INPUT_PULLUP);
 	pinMode(PIN_FAILURE, INPUT);
 	pinMode(PIN_SERVO_POSITION, INPUT);
-
-	Serial.println("init rc interrupt handler");
-	attachPCINT(digitalPinToPCINT(PIN_RECEIVER), handleServoInterrupt, CHANGE);
 
 	Serial.println("init motor controller");
 	cli();
@@ -298,8 +286,9 @@ void loop() {
 		filterdSensor.add(sample);
 	}
 	curPos = filterdSensor.getMedian();
-	if (raw_inputs > 800 && raw_inputs < 2200) {
-		potiMappedRawInput = map(raw_inputs, 1000, 2000, min, max);
+	int rawInput =ppmReader.get(PPM_CHANNEL);
+	if (rawInput > 800 && rawInput < 2200) {
+		potiMappedRawInput = map(rawInput, 1000, 2000, min, max);
 		filterdInput.add(potiMappedRawInput);
 	}
 	targetPos = filterdInput.getMedian();
