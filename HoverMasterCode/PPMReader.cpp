@@ -24,7 +24,7 @@ PPMReader::PPMReader(int pin, int interrupt, bool useTimer)
     _interrupt = interrupt;
     ppmReaderUseTimer = useTimer;
 
-    pinMode(_pin, INPUT);
+    pinMode(_pin, INPUT_PULLUP);
     attachInterrupt(_interrupt, PPMReader::handler, CHANGE);
 }
 

@@ -80,40 +80,6 @@ Text GLabel 7600 4650 0    50   Input ~ 0
 5V
 Text GLabel 7600 4450 0    50   Input ~ 0
 GND
-$Comp
-L Connector:Conn_01x03_Male DCDC-12V1
-U 1 1 5CAF4413
-P 8250 1450
-F 0 "DCDC-12V1" H 8358 1731 50  0000 C CNN
-F 1 "DCDC-12V" H 8358 1640 50  0001 C CNN
-F 2 "Connector_Wire:SolderWirePad_1x03_P3.81mm_Drill1.2mm" H 8250 1450 50  0001 C CNN
-F 3 "~" H 8250 1450 50  0001 C CNN
-	1    8250 1450
-	1    0    0    -1  
-$EndComp
-Text GLabel 8500 1450 2    50   Input ~ 0
-BAT_Fuse+
-Text GLabel 8500 1350 2    50   Input ~ 0
-GND
-Text GLabel 8500 1550 2    50   Input ~ 0
-12V
-$Comp
-L Connector:Conn_01x03_Male Steering1
-U 1 1 5CAF532D
-P 7250 850
-F 0 "Steering1" H 7358 1131 50  0000 C CNN
-F 1 "Conn_01x03_Male" H 7358 1040 50  0000 C CNN
-F 2 "Connector_Wire:SolderWirePad_1x03_P3.81mm_Drill1.2mm" H 7250 850 50  0001 C CNN
-F 3 "~" H 7250 850 50  0001 C CNN
-	1    7250 850 
-	1    0    0    -1  
-$EndComp
-Text GLabel 7500 950  2    50   Input ~ 0
-GND
-Text GLabel 7500 850  2    50   Input ~ 0
-Signal_Steering
-Text GLabel 7500 750  2    50   Input ~ 0
-12V
 Text GLabel 7500 2000 0    50   Input ~ 0
 BAT+
 Text GLabel 7900 2000 2    50   Input ~ 0
@@ -125,12 +91,6 @@ Wire Wire Line
 Wire Wire Line
 	9200 1550 9250 1550
 Wire Wire Line
-	8450 1550 8500 1550
-Wire Wire Line
-	8500 1450 8450 1450
-Wire Wire Line
-	8450 1350 8500 1350
-Wire Wire Line
 	7600 1550 7500 1550
 Wire Wire Line
 	7500 1650 7600 1650
@@ -138,10 +98,6 @@ Wire Wire Line
 	7500 2000 7550 2000
 Wire Wire Line
 	7850 2000 7900 2000
-Wire Wire Line
-	7450 750  7500 750 
-Wire Wire Line
-	7450 950  7500 950 
 Wire Wire Line
 	9950 1250 10000 1250
 Wire Wire Line
@@ -155,15 +111,15 @@ HOVER_POWER_RELAY
 Text GLabel 10300 3150 2    50   Input ~ 0
 PPM_OUT
 $Comp
-L Connector_Generic:Conn_01x04 Receiver_Power1
+L Connector:Conn_01x03_Male Receiver_Power1
 U 1 1 5CB0A5ED
-P 6450 2850
-F 0 "Receiver_Power1" V 6414 2662 50  0000 R CNN
-F 1 "Conn_01x04" V 6323 2662 50  0000 R CNN
-F 2 "Connector_PinSocket_2.00mm:PinSocket_1x04_P2.00mm_Vertical" H 6450 2850 50  0001 C CNN
-F 3 "~" H 6450 2850 50  0001 C CNN
-	1    6450 2850
-	0    -1   -1   0   
+P 6550 2850
+F 0 "Receiver_Power1" V 6514 2662 50  0000 R CNN
+F 1 "Conn_01x04" V 6423 2662 50  0000 R CNN
+F 2 "Connector_PinSocket_2.00mm:PinSocket_1x03_P2.00mm_Vertical" H 6550 2850 50  0001 C CNN
+F 3 "~" H 6550 2850 50  0001 C CNN
+	1    6550 2850
+	0    1    1    0   
 $EndComp
 Text GLabel 6650 3100 3    50   Input ~ 0
 PPM_IN
@@ -173,27 +129,6 @@ Text GLabel 10300 3950 2    50   Input ~ 0
 LED1
 Text GLabel 10300 3850 2    50   Input ~ 0
 LED2
-Text GLabel 6350 3100 3    50   Input ~ 0
-BIND
-$Comp
-L Switch:SW_Push Bind1
-U 1 1 5CB38532
-P 6950 4100
-F 0 "Bind1" H 6950 4385 50  0000 C CNN
-F 1 "SW_Push" H 6950 4294 50  0000 C CNN
-F 2 "Button_Switch_THT:SW_PUSH_6mm" H 6950 4300 50  0001 C CNN
-F 3 "~" H 6950 4300 50  0001 C CNN
-	1    6950 4100
-	1    0    0    -1  
-$EndComp
-Text GLabel 6700 4100 0    50   Input ~ 0
-BIND
-Text GLabel 7200 4100 2    50   Input ~ 0
-GND
-Wire Wire Line
-	6700 4100 6750 4100
-Wire Wire Line
-	7150 4100 7200 4100
 $Comp
 L Graphic:SYM_Flash_Large #SYM1
 U 1 1 5CB40DAD
@@ -210,13 +145,9 @@ GND
 Text GLabel 10300 2950 2    50   Input ~ 0
 PPM_IN
 Wire Wire Line
-	6350 3050 6350 3100
-Wire Wire Line
 	6450 3050 6450 3100
 Wire Wire Line
 	6550 3050 6550 3100
-Text GLabel 10350 3250 2    50   Input ~ 0
-Signal_Steering
 $Comp
 L Connector_Generic:Conn_01x02 Left_Sensor1
 U 1 1 5CC05E03
@@ -228,7 +159,7 @@ F 3 "~" H 5700 2100 50  0001 C CNN
 	1    5700 2100
 	1    0    0    -1  
 $EndComp
-Text GLabel 5350 2100 0    50   Input ~ 0
+Text GLabel 5350 1500 0    50   Input ~ 0
 PPM_OUT
 Text GLabel 5350 2200 0    50   Input ~ 0
 GND
@@ -279,17 +210,9 @@ Wire Wire Line
 Wire Wire Line
 	7650 4650 7600 4650
 Wire Wire Line
-	7450 850  7500 850 
-Wire Wire Line
 	6650 3100 6650 3050
-Wire Wire Line
-	5500 2100 5350 2100
 NoConn ~ 10250 3250
 NoConn ~ 10250 3550
-Wire Wire Line
-	10300 3150 10300 3250
-Wire Wire Line
-	10300 3250 10350 3250
 Text GLabel 9050 5350 2    50   Input ~ 0
 HOVER_POWER_RELAY
 Wire Wire Line
@@ -360,4 +283,33 @@ Wire Wire Line
 	7850 6350 7850 5900
 Wire Wire Line
 	7850 5900 8150 5900
+$Comp
+L Device:R R2
+U 1 1 5D45AEA4
+P 5350 1950
+F 0 "R2" H 5420 1996 50  0000 L CNN
+F 1 "R" H 5420 1905 50  0000 L CNN
+F 2 "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P2.54mm_Vertical" V 5280 1950 50  0001 C CNN
+F 3 "~" H 5350 1950 50  0001 C CNN
+	1    5350 1950
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:R R1
+U 1 1 5D45B5B6
+P 5350 1650
+F 0 "R1" H 5420 1696 50  0000 L CNN
+F 1 "R" H 5420 1605 50  0000 L CNN
+F 2 "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P2.54mm_Vertical" V 5280 1650 50  0001 C CNN
+F 3 "~" H 5350 1650 50  0001 C CNN
+	1    5350 1650
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	5350 1800 5500 1800
+Wire Wire Line
+	5500 1800 5500 2100
+Connection ~ 5350 1800
+Wire Wire Line
+	5350 2100 5350 2200
 $EndSCHEMATC

@@ -17,7 +17,7 @@
 #define PIN_HOVER_RELAY 3
 
 #define PIN_PPM_OUT 4
-#define CHANNEL_NUMBER 7  //set the number of chanels
+#define CHANNEL_NUMBER 6  //set the number of chanels
 #define CHANNEL_DEFAULT_VALUE 1500  //set the default servo value
 #define FRAME_LENGTH 22500  //set the PPM frame length in microseconds (1ms = 1000µs)
 #define PULSE_LENGTH 300  //set the pulse length
@@ -179,12 +179,20 @@ void doNoReceiverLight() {
 }
 
 void process() {
-	float steering = steeringMedian.getMedian();
-	float throttle = map(throttleMedian.getMedian(), 1000, 2000, 0, 1000);
+	int steering = steeringMedian.getMedian();
+	int throttle = throttleMedian.getMedian();
 	bool reverse = reverseMedian.getMedian() < 1700;
-	float speedLimit = speedLimitMedian.getMedian();
+	int speedLimit = speedLimitMedian.getMedian();
 	bool powerOn = emergencyOffMedian.getMedian() < 1700;
 	int lightMode = round((lightModeMedian.getMedian() - 1000) / 150);
+
+	ppm[0] = steering;
+	ppm[1] = throttle;
+	ppm[2] = steering;
+	ppm[3] = throttle;
+	ppm[4] = reverse?1100:1900;
+	ppm[5] = speedLimit;
+
 
 	Serial.print(" steering ");
 	Serial.print(steering);
