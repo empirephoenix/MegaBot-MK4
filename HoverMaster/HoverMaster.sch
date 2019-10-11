@@ -1,6 +1,6 @@
 EESchema Schematic File Version 4
 LIBS:HoverMaster-cache
-EELAYER 29 0
+EELAYER 30 0
 EELAYER END
 $Descr A4 11693 8268
 encoding utf-8
@@ -20,7 +20,7 @@ U 1 1 5CAF1701
 P 7700 2000
 F 0 "F1" H 7760 2046 50  0000 L CNN
 F 1 "Fuse" H 7760 1955 50  0000 L CNN
-F 2 "Fuse:Fuseholder_Cylinder-5x20mm_Stelvio-Kontek_PTF78_Horizontal_Open" V 7630 2000 50  0001 C CNN
+F 2 "Fuse:Fuse_1812_4532Metric_Pad1.30x3.40mm_HandSolder" V 7630 2000 50  0001 C CNN
 F 3 "~" H 7700 2000 50  0001 C CNN
 	1    7700 2000
 	0    1    1    0   
@@ -149,22 +149,20 @@ Wire Wire Line
 Wire Wire Line
 	6550 3050 6550 3100
 $Comp
-L Connector_Generic:Conn_01x02 Left_Sensor1
+L Connector_Generic:Conn_01x03 Left_Sensor1
 U 1 1 5CC05E03
-P 5700 2100
-F 0 "Left_Sensor1" H 5780 2092 50  0000 L CNN
-F 1 "Conn_01x02" H 5780 2001 50  0000 L CNN
-F 2 "Connector_Wire:SolderWirePad_1x02_P3.81mm_Drill1.2mm" H 5700 2100 50  0001 C CNN
-F 3 "~" H 5700 2100 50  0001 C CNN
-	1    5700 2100
-	1    0    0    -1  
+P 4150 2000
+F 0 "Left_Sensor1" H 4230 1992 50  0000 L CNN
+F 1 "Conn_01x03" H 4230 1901 50  0000 L CNN
+F 2 "Connector_JST:JST_EH_B3B-EH-A_1x03_P2.50mm_Vertical" H 4150 2000 50  0001 C CNN
+F 3 "~" H 4150 2000 50  0001 C CNN
+	1    4150 2000
+	-1   0    0    1   
 $EndComp
-Text GLabel 5350 1500 0    50   Input ~ 0
+Text GLabel 4900 2000 2    50   Input ~ 0
 PPM_OUT
-Text GLabel 5350 2200 0    50   Input ~ 0
+Text GLabel 4350 1850 1    50   Input ~ 0
 GND
-Wire Wire Line
-	5350 2200 5500 2200
 $Comp
 L arduino:Arduino_Nano_Socket XA1
 U 1 1 5CBDDEF6
@@ -176,15 +174,11 @@ F 3 "https://store.arduino.cc/arduino-nano" H 10750 7600 60  0001 C CNN
 	1    8950 3850
 	1    0    0    -1  
 $EndComp
-NoConn ~ 10250 3350
-NoConn ~ 10250 3450
 NoConn ~ 10250 4050
 NoConn ~ 10250 3750
-NoConn ~ 10250 3650
 NoConn ~ 10250 4550
 NoConn ~ 10250 4650
 NoConn ~ 7650 4750
-NoConn ~ 7650 4550
 NoConn ~ 7650 4350
 NoConn ~ 7650 4150
 NoConn ~ 7650 4050
@@ -212,7 +206,6 @@ Wire Wire Line
 Wire Wire Line
 	6650 3100 6650 3050
 NoConn ~ 10250 3250
-NoConn ~ 10250 3550
 Text GLabel 9050 5350 2    50   Input ~ 0
 HOVER_POWER_RELAY
 Wire Wire Line
@@ -227,7 +220,7 @@ U 1 1 5CF03D3D
 P 7950 5900
 F 0 "J1" H 8058 6081 50  0000 C CNN
 F 1 "Conn_01x02_Male" H 8058 5990 50  0000 C CNN
-F 2 "Connector_Wire:SolderWirePad_1x02_P5.08mm_Drill1.5mm" H 7950 5900 50  0001 C CNN
+F 2 "Connector_JST:JST_EH_B2B-EH-A_1x02_P2.50mm_Vertical" H 7950 5900 50  0001 C CNN
 F 3 "~" H 7950 5900 50  0001 C CNN
 	1    7950 5900
 	1    0    0    -1  
@@ -238,7 +231,7 @@ U 1 1 5CF04621
 P 9350 6000
 F 0 "J2" H 9322 5882 50  0000 R CNN
 F 1 "Conn_01x02_Male" H 9322 5973 50  0000 R CNN
-F 2 "Connector_Wire:SolderWirePad_1x02_P5.08mm_Drill1.5mm" H 9350 6000 50  0001 C CNN
+F 2 "Connector_JST:JST_EH_B2B-EH-A_1x02_P2.50mm_Vertical" H 9350 6000 50  0001 C CNN
 F 3 "~" H 9350 6000 50  0001 C CNN
 	1    9350 6000
 	-1   0    0    1   
@@ -284,32 +277,151 @@ Wire Wire Line
 Wire Wire Line
 	7850 5900 8150 5900
 $Comp
-L Device:R R2
-U 1 1 5D45AEA4
-P 5350 1950
-F 0 "R2" H 5420 1996 50  0000 L CNN
-F 1 "R" H 5420 1905 50  0000 L CNN
-F 2 "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P2.54mm_Vertical" V 5280 1950 50  0001 C CNN
-F 3 "~" H 5350 1950 50  0001 C CNN
-	1    5350 1950
+L Connector:Conn_01x06_Male Hupe1
+U 1 1 5D7C29DA
+P 6150 4250
+F 0 "Hupe1" H 6258 4631 50  0000 C CNN
+F 1 "Conn_01x06_Male" H 6258 4540 50  0000 C CNN
+F 2 "Connector_JST:JST_EH_B6B-EH-A_1x06_P2.50mm_Vertical" H 6150 4250 50  0001 C CNN
+F 3 "~" H 6150 4250 50  0001 C CNN
+	1    6150 4250
 	1    0    0    -1  
 $EndComp
+Text GLabel 6450 4550 2    50   Input ~ 0
+GND
+Text GLabel 6450 4050 2    50   Input ~ 0
+12V
+Text GLabel 6450 4150 2    50   Input ~ 0
+Hupe_1
+Text GLabel 6450 4250 2    50   Input ~ 0
+Hupe_2
+Text GLabel 6450 4350 2    50   Input ~ 0
+Hupe_3
+Text GLabel 6450 4450 2    50   Input ~ 0
+Hupe_4
+Text GLabel 10350 3350 2    50   Input ~ 0
+Hupe_1
+Text GLabel 10350 3450 2    50   Input ~ 0
+Hupe_2
+Text GLabel 10350 3550 2    50   Input ~ 0
+Hupe_3
+Text GLabel 10350 3650 2    50   Input ~ 0
+Hupe_4
+Wire Wire Line
+	10250 3350 10350 3350
+Wire Wire Line
+	10350 3450 10250 3450
+Wire Wire Line
+	10250 3550 10350 3550
+Wire Wire Line
+	10350 3650 10250 3650
+Wire Wire Line
+	6350 4050 6450 4050
+Wire Wire Line
+	6450 4150 6350 4150
+Wire Wire Line
+	6350 4250 6450 4250
+Wire Wire Line
+	6450 4350 6350 4350
+Wire Wire Line
+	6350 4450 6450 4450
+Wire Wire Line
+	6450 4550 6350 4550
+$Comp
+L Connector:Conn_01x03_Female J4
+U 1 1 5D7CEFDB
+P 6150 5000
+F 0 "J4" H 6042 4675 50  0000 C CNN
+F 1 "Conn_01x03_Female" H 6042 4766 50  0000 C CNN
+F 2 "Connector_Wire:SolderWirePad_1x03_P3.81mm_Drill1.2mm" H 6150 5000 50  0001 C CNN
+F 3 "~" H 6150 5000 50  0001 C CNN
+	1    6150 5000
+	-1   0    0    1   
+$EndComp
+Text GLabel 6450 4900 2    50   Input ~ 0
+GND
+Text GLabel 6450 5100 2    50   Input ~ 0
+12V
+Text GLabel 6450 5000 2    50   Input ~ 0
+BAT_Fuse+
+Wire Wire Line
+	6350 4900 6450 4900
+Wire Wire Line
+	6450 5000 6350 5000
+Wire Wire Line
+	6450 5100 6350 5100
+$Comp
+L Transistor_FET:BSS138 Q1
+U 1 1 5D8088F5
+P 4650 1900
+F 0 "Q1" V 4901 1900 50  0000 C CNN
+F 1 "BSS138" V 4992 1900 50  0000 C CNN
+F 2 "Package_TO_SOT_SMD:SOT-23" H 4850 1825 50  0001 L CIN
+F 3 "https://www.fairchildsemi.com/datasheets/BS/BSS138.pdf" H 4650 1900 50  0001 L CNN
+	1    4650 1900
+	0    1    1    0   
+$EndComp
+Wire Wire Line
+	4850 2000 4900 2000
+Wire Wire Line
+	4350 2000 4450 2000
+Wire Wire Line
+	4350 1850 4350 1900
+Text GLabel 4450 1600 1    50   Input ~ 0
+3.3V
 $Comp
 L Device:R R1
-U 1 1 5D45B5B6
-P 5350 1650
-F 0 "R1" H 5420 1696 50  0000 L CNN
-F 1 "R" H 5420 1605 50  0000 L CNN
-F 2 "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P2.54mm_Vertical" V 5280 1650 50  0001 C CNN
-F 3 "~" H 5350 1650 50  0001 C CNN
-	1    5350 1650
+U 1 1 5D81CEE0
+P 4450 1800
+F 0 "R1" H 4520 1846 50  0000 L CNN
+F 1 "10K" H 4520 1755 50  0000 L CNN
+F 2 "Resistor_THT:R_Axial_DIN0204_L3.6mm_D1.6mm_P2.54mm_Vertical" V 4380 1800 50  0001 C CNN
+F 3 "~" H 4450 1800 50  0001 C CNN
+	1    4450 1800
+	1    0    0    -1  
+$EndComp
+Text GLabel 4850 1600 1    50   Input ~ 0
+5V
+$Comp
+L Device:R R2
+U 1 1 5D81E1FF
+P 4850 1800
+F 0 "R2" H 4920 1846 50  0000 L CNN
+F 1 "10K" H 4920 1755 50  0000 L CNN
+F 2 "Resistor_THT:R_Axial_DIN0204_L3.6mm_D1.6mm_P2.54mm_Vertical" V 4780 1800 50  0001 C CNN
+F 3 "~" H 4850 1800 50  0001 C CNN
+	1    4850 1800
 	1    0    0    -1  
 $EndComp
 Wire Wire Line
-	5350 1800 5500 1800
+	4850 1600 4850 1650
 Wire Wire Line
-	5500 1800 5500 2100
-Connection ~ 5350 1800
+	4850 1950 4850 2000
+Connection ~ 4850 2000
 Wire Wire Line
-	5350 2100 5350 2200
+	4450 1600 4450 1650
+Wire Wire Line
+	4450 1950 4450 2000
+Connection ~ 4450 2000
+Wire Wire Line
+	4650 1700 4650 1650
+Wire Wire Line
+	4650 1650 4450 1650
+Connection ~ 4450 1650
+Text GLabel 7600 4550 0    50   Input ~ 0
+3.3V
+Wire Wire Line
+	7600 4550 7650 4550
+Wire Wire Line
+	4450 1650 4400 1650
+Wire Wire Line
+	4400 1650 4400 1600
+Wire Wire Line
+	4400 1600 3900 1600
+Wire Wire Line
+	3900 1600 3900 2200
+Wire Wire Line
+	3900 2200 4350 2200
+Wire Wire Line
+	4350 2200 4350 2100
 $EndSCHEMATC
