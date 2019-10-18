@@ -31,7 +31,7 @@ U 1 1 5CAF2837
 P 7300 1550
 F 0 "BAT1" H 7408 1731 50  0000 C CNN
 F 1 "Conn_01x02_Male" H 7408 1640 50  0000 C CNN
-F 2 "Connector_Wire:SolderWirePad_1x02_P5.08mm_Drill1.5mm" H 7300 1550 50  0001 C CNN
+F 2 "Connector_Phoenix_MC_HighVoltage:PhoenixContact_MCV_1,5_2-G-5.08_1x02_P5.08mm_Vertical" H 7300 1550 50  0001 C CNN
 F 3 "~" H 7300 1550 50  0001 C CNN
 	1    7300 1550
 	1    0    0    -1  
@@ -42,20 +42,9 @@ U 1 1 5CAF2F05
 P 9000 1450
 F 0 "DCDC-5V1" H 9108 1731 50  0000 C CNN
 F 1 "Conn_01x03_Male" H 9108 1640 50  0001 C CNN
-F 2 "Connector_Wire:SolderWirePad_1x03_P3.81mm_Drill1.2mm" H 9000 1450 50  0001 C CNN
+F 2 "Connector_Phoenix_MC_HighVoltage:PhoenixContact_MCV_1,5_3-G-5.08_1x03_P5.08mm_Vertical" H 9000 1450 50  0001 C CNN
 F 3 "~" H 9000 1450 50  0001 C CNN
 	1    9000 1450
-	1    0    0    -1  
-$EndComp
-$Comp
-L Connector:Conn_01x04_Male J3
-U 1 1 5CAF35C9
-P 9750 1350
-F 0 "J3" H 9858 1631 50  0000 C CNN
-F 1 "LED" H 9858 1540 50  0000 C CNN
-F 2 "Connector_Wire:SolderWirePad_1x04_P3.81mm_Drill1.2mm" H 9750 1350 50  0001 C CNN
-F 3 "~" H 9750 1350 50  0001 C CNN
-	1    9750 1350
 	1    0    0    -1  
 $EndComp
 Text GLabel 7600 1550 2    50   Input ~ 0
@@ -116,7 +105,7 @@ U 1 1 5CB0A5ED
 P 6550 2850
 F 0 "Receiver_Power1" V 6514 2662 50  0000 R CNN
 F 1 "Conn_01x04" V 6423 2662 50  0000 R CNN
-F 2 "Connector_PinSocket_2.00mm:PinSocket_1x03_P2.00mm_Vertical" H 6550 2850 50  0001 C CNN
+F 2 "Connector_JST:JST_EH_B3B-EH-A_1x03_P2.50mm_Vertical" H 6550 2850 50  0001 C CNN
 F 3 "~" H 6550 2850 50  0001 C CNN
 	1    6550 2850
 	0    1    1    0   
@@ -282,7 +271,7 @@ U 1 1 5D7C29DA
 P 6150 4250
 F 0 "Hupe1" H 6258 4631 50  0000 C CNN
 F 1 "Conn_01x06_Male" H 6258 4540 50  0000 C CNN
-F 2 "Connector_JST:JST_EH_B6B-EH-A_1x06_P2.50mm_Vertical" H 6150 4250 50  0001 C CNN
+F 2 "Connector_Phoenix_MC_HighVoltage:PhoenixContact_MCV_1,5_5-G-5.08_1x05_P5.08mm_Vertical" H 6150 4250 50  0001 C CNN
 F 3 "~" H 6150 4250 50  0001 C CNN
 	1    6150 4250
 	1    0    0    -1  
@@ -333,7 +322,7 @@ U 1 1 5D7CEFDB
 P 6150 5000
 F 0 "J4" H 6042 4675 50  0000 C CNN
 F 1 "Conn_01x03_Female" H 6042 4766 50  0000 C CNN
-F 2 "Connector_Wire:SolderWirePad_1x03_P3.81mm_Drill1.2mm" H 6150 5000 50  0001 C CNN
+F 2 "Connector_Phoenix_MC_HighVoltage:PhoenixContact_MCV_1,5_3-G-5.08_1x03_P5.08mm_Vertical" H 6150 5000 50  0001 C CNN
 F 3 "~" H 6150 5000 50  0001 C CNN
 	1    6150 5000
 	-1   0    0    1   
@@ -424,4 +413,15 @@ Wire Wire Line
 	3900 2200 4350 2200
 Wire Wire Line
 	4350 2200 4350 2100
+$Comp
+L Connector:Conn_01x04_Male J3
+U 1 1 5CAF35C9
+P 9750 1350
+F 0 "J3" H 9858 1631 50  0000 C CNN
+F 1 "LED" H 9858 1540 50  0000 C CNN
+F 2 "Connector_Phoenix_MC_HighVoltage:PhoenixContact_MCV_1,5_4-G-5.08_1x04_P5.08mm_Vertical" H 9750 1350 50  0001 C CNN
+F 3 "~" H 9750 1350 50  0001 C CNN
+	1    9750 1350
+	1    0    0    -1  
+$EndComp
 $EndSCHEMATC
