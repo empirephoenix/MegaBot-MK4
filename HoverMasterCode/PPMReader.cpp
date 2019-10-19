@@ -16,7 +16,7 @@ License: GNU GPL v3
 
 volatile int PPMReader::ppm[PPMREADER_PMM_CHANNEL_COUNT];
 volatile bool ppmReaderUseTimer = false;
-volatile uint32_t lastPacketUpdate = 0; 
+volatile uint32_t lastPacketUpdate = -5000; 
 
 PPMReader::PPMReader(int pin, int interrupt, bool useTimer)
 {
